@@ -56,5 +56,26 @@ npm i --save-dev chai
         browser.getTitle().should.be.equal('The Internet');
     });
 
+--Add visual regression package
+npm install --save-dev wdio-image-comparison-service
+
+--Add visual regression configuration to wdio.conf.js
+const { join } = require('path');
+
+exports.config {
+    ...
+    services: ['chromedriver', [
+        'image-comparison', {
+            baselineFolder: join(process.cwd(), './screenshots/baseline/'),
+            formatImageName: '{tag}-{logName}-{width}x{height}',
+            screenshotPath: join(process.cwd(), './screenshots/current'),
+            savePerInstance: true,
+            autoSaveBaseline: true,
+            blockOutStatusBar: true,
+            blockOutToolBar: true,
+        }],
+    ],
+    ...
+}
 
 
