@@ -1,0 +1,14 @@
+{
+  "name": "visualregression2",
+  "version": "1.0.0",
+  "description": "--Initiate Git Repo\r git init\r touch README.md\r git add README.md\r git commit",
+  "main": "basic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Johnson",
+  "license": "ISC",
+  "devDependencies": {
+    "@wdio/cli": "^5.11.14"
+  }
+}
