@@ -68,6 +68,9 @@ Add the following to wdio.conf.js within before hook
 }
 ```
 
+## Add Bable.js support to the project
+npm install --save-dev @babel/core @babel/cli @babel/preset-env @babel/register
+
 ## Add test to basic.js to ensure that chai works
 ```
  it('Should work with Chai library', () => {
@@ -127,3 +130,4 @@ describe('Visual Regression test', () => {
 
 });
 ```
+
