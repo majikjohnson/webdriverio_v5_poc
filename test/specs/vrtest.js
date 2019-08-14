@@ -9,7 +9,7 @@ describe('Visual Regression test', () => {
         browser.saveScreen('Google_SSE')
     });
 
-    it('should compare to the baseline', () => {
+    it.only('should compare to the baseline', () => {
         $('input[name="q"]').setValue("OVO");
         browser.keys('Enter');
         browser.checkScreen('Google_SSE').should.be.equal(0);

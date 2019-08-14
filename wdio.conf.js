@@ -111,9 +111,9 @@ exports.config = {
     // commands. Instead, they hook themselves up into the test process.
     services: ['chromedriver', [
         'image-comparison', {
-            baselineFolder: join(process.cwd(), './screenshots/baseline/'),
+            baselineFolder: join(process.cwd(), './test/visual/baseline/'),
             formatImageName: '{tag}-{logName}-{width}x{height}',
-            screenshotPath: join(process.cwd(), './screenshots/current'),
+            screenshotPath: join(process.cwd(), './test/visual/'),
             savePerInstance: true,
             autoSaveBaseline: true,
             blockOutStatusBar: true,
