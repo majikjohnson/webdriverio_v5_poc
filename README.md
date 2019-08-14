@@ -59,16 +59,16 @@ npm i --save-dev chai
 --Add visual regression package
 npm install --save-dev wdio-image-comparison-service
 
---Add visual regression configuration to wdio.conf.js
+--Add visual regression configuration to wdio.conf.js (instantiate the plugin)
 const { join } = require('path');
 
 exports.config {
     ...
     services: ['chromedriver', [
         'image-comparison', {
-            baselineFolder: join(process.cwd(), './screenshots/baseline/'),
+             baselineFolder: join(process.cwd(), './test/visual/baseline/'),
             formatImageName: '{tag}-{logName}-{width}x{height}',
-            screenshotPath: join(process.cwd(), './screenshots/current'),
+            screenshotPath: join(process.cwd(), './test/visual/'),
             savePerInstance: true,
             autoSaveBaseline: true,
             blockOutStatusBar: true,
@@ -78,4 +78,22 @@ exports.config {
     ...
 }
 
+--Add folder structure to hold screenshot
+Actual/Diff - test/visual/
+Baseline - test/visual/baseline/
+
+--Add test to check that visual regression package is working correctly (in test/visual/VRTestRunner.js)
+
+describe('Visual Regression test', () => {
+    beforeEach(() => {
+        browser.url('https://www.google.com');
+    });
+
+    it('should compare to the baseline', () => {
+        $('input[name="q"]').setValue("SSE");
+        browser.keys('Enter');
+        browser.checkScreen('Google_SSE').should.be.equal(0);
+    });
+
+});
 

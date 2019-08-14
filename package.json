@@ -4,7 +4,8 @@
   "description": "--Initiate Git Repo\r git init\r touch README.md\r git add README.md\r git commit",
   "main": "basic.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "visual": "wdio wdio.conf.js --spec test/visual/VRTestRunner.js"
   },
   "author": "Matthew Johnson",
   "license": "ISC",
