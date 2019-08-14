@@ -1,30 +1,42 @@
 
---Initiate Git Repo
+## Initiate Git Repo
+```
 git init
 touch README.md
 git add README.md
-git commit
+git commit -m "Initial Commit"
+```
+## Create .gitignore file and add node_modules
+touch .gitignore < node_modules/
 
---create .gitignore file
-touch .gitignore
+## Initiate a node project
+This will create package.json
+```
+npm init
+```
 
---add node_modules/ to .gitignore
-
---initiate a node project
-npm init //This creates package.json
-
---install webdriver.io command line
+## Install webdriver.io command line
+```
 npm i --save-dev @wdio/cli
+```
 
---Configure webdriver.io
-./node_modules/.bin/wdio config (using sync rather than asyn)
+## Configure webdriver.io
+Used sync rather than async
+```
+./node_modules/.bin/wdio config
+```
 
---add folder for test specs
+## Add folder for test specs
+```
 mkdir -p ./test/specs
+```
 
---add basic.js file for quick test
+## Add basic.js file for quick test
+```
 touch ./test/specs/basic.js
-
+```
+Test Code:
+```
 const assert = require('assert');
 
 describe('The Internet Homepage', () => {
@@ -34,32 +46,43 @@ describe('The Internet Homepage', () => {
         assert.strictEqual(title, 'The Internet');
     });
 });
+```
 
---run test to make sure it works
+## Run test in basic.js to make sure framework works
+```
 ./node_modules/.bin/wdio wdio.conf.js
+```
 
---install chai package
+## Install chai package
+```
 npm i --save-dev chai
+```
 
---add chai Should to global context in wdio.conf.js
-
+## Add chai Should to global context
+Add the following to wdio.conf.js within before hook
+```
  before: function (capabilities, specs) {
         var chai = require('chai');
         global.expect = chai.expect;
         chai.Should();
-    }
+}
+```
 
---Add test to basic.js to ensure that chai works.
-
+## Add test to basic.js to ensure that chai works
+```
  it('Should work with Chai library', () => {
         browser.url('https://the-internet.herokuapp.com');
         browser.getTitle().should.be.equal('The Internet');
     });
+```
 
---Add visual regression package
+## Add visual regression package
+```
 npm install --save-dev wdio-image-comparison-service
+```
 
---Add visual regression configuration to wdio.conf.js (instantiate the plugin)
+## Add visual regression configuration to wdio.conf.js (instantiate the plugin)
+```
 const { join } = require('path');
 
 exports.config {
@@ -77,13 +100,20 @@ exports.config {
     ],
     ...
 }
+```
 
---Add folder structure to hold screenshot
-Actual/Diff - test/visual/
-Baseline - test/visual/baseline/
+## Add folder structure to hold screenshot
+Actual/Diff:
+```
+mkdir ./test/visual
+```
+Baseline:
+```
+mkdir ./test/visual/baseline
+```
 
---Add test to check that visual regression package is working correctly (in test/visual/VRTestRunner.js)
-
+## Add test to check that visual regression package is working correctly (in test/visual/VRTestRunner.js)
+```
 describe('Visual Regression test', () => {
     beforeEach(() => {
         browser.url('https://www.google.com');
@@ -96,4 +126,4 @@ describe('Visual Regression test', () => {
     });
 
 });
-
+```
