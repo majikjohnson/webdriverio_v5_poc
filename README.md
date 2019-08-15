@@ -21,7 +21,7 @@ npm i --save-dev @wdio/cli
 ```
 
 ## Configure webdriver.io
-Used sync rather than async
+Used sync rather than async.  Use Mocha for the test runner
 ```
 ./node_modules/.bin/wdio config
 ```
@@ -69,7 +69,30 @@ Add the following to wdio.conf.js within before hook
 ```
 
 ## Add Bable.js support to the project
+```
 npm install --save-dev @babel/core @babel/cli @babel/preset-env @babel/register
+```
+Add the following to wdio.conf.js:
+```
+    mochaOpts: {
+        ui: 'bdd',
+        timeout: 60000,
+        require: ['@babel/register']
+    },
+```
+
+## Add babel.config.js file with default settings
+```
+module.exports = {
+    presets: [
+        ['@babel/preset-env', {
+            targets: {
+                node: "current"
+            }
+        }]
+    ]
+}
+```
 
 ## Add test to basic.js to ensure that chai works
 ```
@@ -130,4 +153,80 @@ describe('Visual Regression test', () => {
 
 });
 ```
+
+## Add Page Objecct Support
+Page object support comes out of the box with Webdriver.io v5.  Here is a basic setup.
+* Page Objects stored in ./tests/pages/
+* Page Object class files have the extention ".page.js"
+* Page Objects are stateless, and return an instantiated object
+* Spec are stored in ./tests/specs/
+* Specs use the naming convention \[pageName\].specs.js
+* Specs should be specific to the page being tested
+
+
+### Page Objecct Base Class - tests/pages/page.js
+```
+export default class Page {
+
+    open(path) {
+        browser.url(path);
+    }
+
+    get title() {
+        return browser.getTitle();
+    }
+
+}
+```
+
+### Add/Remove Elements Page Object - tests/pages/addRemoveElements.page.js
+```
+import Page from './page';
+
+class AddRemoveElements extends Page {
+    open() {
+        super.open('add_remove_elements/');
+    }
+
+    get addElementButton() {
+        return $('.example > button');
+    }
+
+    getDeleteButtons() {
+        return $$('button=Delete');
+    }
+}
+
+export default new AddRemoveElements();
+```
+
+### Add/Remove Elements Page Specs - ./test/specs/addRemoveElements.spec.js
+```
+import AddRemoveElements from '../pages/addRemoveElements.page';
+
+describe('Add/Remove Elements Page', () => {
+    beforeEach(() => {
+        AddRemoveElements.open();
+    });
+
+    it('Should contain an Add Element button', () => {
+        AddRemoveElements.addElementButton.should.exist;
+    });
+    
+    it('Should add a Delete button to the page when Add Element button is clicked', () => {
+        AddRemoveElements.addElementButton.click();
+        AddRemoveElements.getDeleteButtons().length.should.be.equal(1);
+    });
+
+    it('Should allow multiple Delete buttons to be added', () => {
+
+        for(let i = 0; i < 5; i++) {
+            AddRemoveElements.addElementButton.click();
+        }
+        AddRemoveElements.getDeleteButtons().length.should.be.equal(5);
+    });
+});
+```
+
+
 
