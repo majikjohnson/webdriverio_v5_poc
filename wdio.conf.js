@@ -262,8 +262,19 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function(exitCode, config, capabilities, results) {
+        const allure = require('allure-commandline');
+        const fs = require('fs-extra');
+        console.log("Allure Reporting: Copying run history from report folder to results folder");
+        fs.ensureDirSync('allure-report\\history');
+        fs.copySync('allure-report\\history', 'allure-results\\history', {overwrite: true});
+
+        console.log("Allure Reporting: Generating report");
+        const generation = allure(['generate', 'allure-results', '-o', 'allure-report', '--clean' ]);
+        generation.on('exit', function(exitCode) {
+            console.log('Allure Reporting: Generation is finished with code:', exitCode);
+        });
+    },
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session

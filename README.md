@@ -237,7 +237,12 @@ npm i -D @wdio/allure-reporter
 
 ### Install the Allure report generator
 ```
-npm install -g allure-commandline --save-dev
+npm i -D allure-commandline
+```
+
+### Install the 'fs-extra' package to make copying directories eaiser
+```
+npm i -D fs-extra
 ```
 
 ### Add the following to wdio.conf.js
@@ -261,12 +266,32 @@ exports.config = {
     },
 ```
 
-### Generate report
-After running the tests, the results are written to 'allure-results'.  Generate an HTML report by running:
+### Add report generation to the onComplete hook in wdio.conf.js
 ```
-allure generate ./allure-reults && allure open
+exports.config = {
+    ...
+    onComplete: function(exitCode, config, capabilities, results) {
+        const allure = require('allure-commandline');
+        const fs = require('fs-extra');
+
+        console.log("Allure Reporting: Copying run history from report folder to results folder");
+        fs.ensureDirSync('allure-report\\history');
+        fs.copySync('allure-report\\history', 'allure-results\\history', {overwrite: true});
+
+        console.log("Allure Reporting: Generating report");
+        const generation = allure(['generate', 'allure-results', '-o', 'allure-report', '--clean' ]);
+        generation.on('exit', function(exitCode) {
+            console.log('Allure Reporting: Generation is finished with code:', exitCode);
+        });
+    },
+    ...
+}
 ```
 
-
+### Use the allure-commandline tool to open the report
+Run from the terminal (run using npx as the allure-commandline tool was installed locally as dev-dependency)
+```
+npx allure open
+```
 
 

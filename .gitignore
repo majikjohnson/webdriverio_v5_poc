@@ -1,2 +1,4 @@
 node_modules/
 test/visual/
+allure-report/
+allure-results/
