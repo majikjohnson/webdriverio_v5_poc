@@ -19,6 +19,6 @@ describe('Add/Remove Elements Page', () => {
         for(let i = 0; i < 5; i++) {
             AddRemoveElements.addElementButton.click();
         }
-        AddRemoveElements.getDeleteButtons().length.should.be.equal(5);
+        AddRemoveElements.getDeleteButtons().length.should.be.equal(5, 'Number of Delete buttons incorrect');
     });
 });

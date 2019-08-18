@@ -228,5 +228,45 @@ describe('Add/Remove Elements Page', () => {
 });
 ```
 
+## Add Allure Reports
+
+### Install the Allure package
+```
+npm i -D @wdio/allure-reporter
+```
+
+### Install the Allure report generator
+```
+npm install -g allure-commandline --save-dev
+```
+
+### Add the following to wdio.conf.js
+```
+exports.config = {
+    ...
+    reporters: ['dot', ['Allure', {
+        outputDir: 'allure-results',
+    }]],
+    ...
+
+}
+```
+
+### Configure the ability to take screenshots when tests fail in wdio.conf.js
+```
+    afterTest: function (test) {
+        if (test.error !== undefined) {
+            browser.takeScreenshot();
+        }
+    },
+```
+
+### Generate report
+After running the tests, the results are written to 'allure-results'.  Generate an HTML report by running:
+```
+allure generate ./allure-reults && allure open
+```
+
+
 
 
