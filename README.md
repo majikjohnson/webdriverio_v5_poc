@@ -271,15 +271,14 @@ exports.config = {
 exports.config = {
     ...
     onComplete: function(exitCode, config, capabilities, results) {
-        const allure = require('allure-commandline');
+       const allure = require('allure-commandline');
         const fs = require('fs-extra');
-
         console.log("Allure Reporting: Copying run history from report folder to results folder");
-        fs.ensureDirSync('allure-report\\history');
-        fs.copySync('allure-report\\history', 'allure-results\\history', {overwrite: true});
+        fs.ensureDirSync('allure/report/history');
+        fs.copySync('allure/report/history', 'allure/results/history', {overwrite: true});
 
         console.log("Allure Reporting: Generating report");
-        const generation = allure(['generate', 'allure-results', '-o', 'allure-report', '--clean' ]);
+        const generation = allure(['generate', 'allure/results', '-o', 'allure/report', '--clean' ]);
         generation.on('exit', function(exitCode) {
             console.log('Allure Reporting: Generation is finished with code:', exitCode);
         });
@@ -291,7 +290,7 @@ exports.config = {
 ### Use the allure-commandline tool to open the report
 Run from the terminal (run using npx as the allure-commandline tool was installed locally as dev-dependency)
 ```
-npx allure open
+npx allure open allure/report
 ```
 
 

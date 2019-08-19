@@ -136,7 +136,7 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
     reporters: ['dot', ['Allure', {
-        outputDir: 'allure-results'
+        outputDir: 'allure/results'
     }]],
     
     //
@@ -266,11 +266,11 @@ exports.config = {
         const allure = require('allure-commandline');
         const fs = require('fs-extra');
         console.log("Allure Reporting: Copying run history from report folder to results folder");
-        fs.ensureDirSync('allure-report\\history');
-        fs.copySync('allure-report\\history', 'allure-results\\history', {overwrite: true});
+        fs.ensureDirSync('allure/report/history');
+        fs.copySync('allure/report/history', 'allure/results/history', {overwrite: true});
 
         console.log("Allure Reporting: Generating report");
-        const generation = allure(['generate', 'allure-results', '-o', 'allure-report', '--clean' ]);
+        const generation = allure(['generate', 'allure/results', '-o', 'allure/report', '--clean' ]);
         generation.on('exit', function(exitCode) {
             console.log('Allure Reporting: Generation is finished with code:', exitCode);
         });
